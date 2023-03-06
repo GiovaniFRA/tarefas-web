@@ -14,7 +14,13 @@ defmodule TarefasWeb.ControladorTarefas do
     json(conn,Tarefas.CLI.processar(tarefas,"todas"))
   end
 
-  def inserir(conn,%{"descricao" => descricao,"posicao" => posicao}) do
+  def completar(conn,params) do
+    %{"posicao" => posicao} = params
+    Tarefas.CLI.main(["completar",posicao])
+    json(conn,"")
+  end
+
+  def inserir(conn,%{"descricao" => descricao,"posicao" => posicao})when descricao !== "completadas" do
     Tarefas.CLI.main([descricao,posicao])
     json(conn,"")
   end
@@ -34,12 +40,6 @@ defmodule TarefasWeb.ControladorTarefas do
     %{"posicao" => posicao} = params
    Tarefas.CLI.main(["remover",posicao])
    json(conn,"")
-  end
-
-  def completar(conn,params) do
-    %{"posicao" => posicao} = params
-    Tarefas.CLI.main(["completar",posicao])
-    json(conn,"")
   end
 
   def reiniciar(conn,params) do

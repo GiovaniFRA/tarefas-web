@@ -29,6 +29,7 @@ defmodule Tarefas.CLI do
   Retorna o resultado do processamento
   """
 
+
  def processar(tarefas,[]) when is_list(tarefas) do
     tarefas=Enum.filter(tarefas,fn tarefa -> Tarefas.Tarefa.completada?(tarefa) end)
     tarefas=Enum.each(tarefas, fn tarefa -> Tarefas.Tarefa.imprimir(tarefa) end)
@@ -37,14 +38,13 @@ defmodule Tarefas.CLI do
  def processar(tarefas,[nova]) when is_list(tarefas) do
     tarefas=List.insert_at(tarefas,-1,Tarefas.Tarefa.decodificar( ",#{nova},sem_completar"))
  end
-
- #Completar
- def processar(tarefas,["completar",x])do
-  x=String.to_integer(x)
-  tarefa=Tarefas.Tarefa.completar(Enum.at(tarefas,x))
-  tarefas=List.replace_at(tarefas,x,tarefa)
-  IO.inspect(tarefas)
-end
+  #Completar
+  def processar(tarefas,["completar",x])do
+    x=String.to_integer(x)
+    tarefa=Tarefas.Tarefa.completar(Enum.at(tarefas,x))
+    tarefas=List.replace_at(tarefas,x,tarefa)
+    IO.inspect(tarefas)
+  end
 
 #Reiniciar
 def processar(tarefas,["reiniciar",x])do

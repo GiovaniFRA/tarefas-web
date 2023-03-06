@@ -10,10 +10,10 @@ defmodule TarefasWeb.Router do
 
 
     get "/tarefas", ControladorTarefas, :listar
-    post "/tarefas/:descricao", ControladorTarefas, :inserir
+    post "/tarefas", ControladorTarefas, :inserir
     post "/tarefas/:descricao/:posicao", ControladorTarefas, :inserir
     post "/tarefas/mover/:origem/mover-a/:destino", ControladorTarefas, :mover
-    delete "/tarefas/remover/:posicao", ControladorTarefas, :remover
+    delete "/tarefas/:posicao", ControladorTarefas, :remover
     put "/tarefas/completar/:posicao", ControladorTarefas, :completar
     delete "/tarefas/completadas/:posicao", ControladorTarefas, :reiniciar
   end
