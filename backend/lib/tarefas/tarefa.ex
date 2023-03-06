@@ -33,7 +33,7 @@ defmodule Tarefas.Tarefa do
   Retorna verdadeiro se seu estado for "completada" ou falso se não
   """
   def completada?(%Tarefa{id: id,descricao: descricao, estado: estado}) do
-    estado=="completada"
+    estado==="completada"
   end
 
   @doc """

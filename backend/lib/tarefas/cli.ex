@@ -38,6 +38,28 @@ defmodule Tarefas.CLI do
     tarefas=List.insert_at(tarefas,-1,Tarefas.Tarefa.decodificar( ",#{nova},sem_completar"))
  end
 
+ #Completar
+ def processar(tarefas,["completar",x])do
+  x=String.to_integer(x)
+  tarefa=Tarefas.Tarefa.completar(Enum.at(tarefas,x))
+  tarefas=List.replace_at(tarefas,x,tarefa)
+  IO.inspect(tarefas)
+end
+
+#Reiniciar
+def processar(tarefas,["reiniciar",x])do
+  x=String.to_integer(x)
+  tarefa=Tarefas.Tarefa.reiniciar(Enum.at(tarefas,x))
+  tarefas=List.replace_at(tarefas,x,tarefa)
+  IO.inspect(tarefas)
+end
+
+#Remover
+def processar(tarefas,["remover",x])do
+  x=String.to_integer(x)
+  List.delete_at(tarefas,x)
+end
+
  #Mover a tarefa
  def processar(tarefas,["mover", origem, destino])do
     origem=String.to_integer(origem)
@@ -51,35 +73,13 @@ defmodule Tarefas.CLI do
     # tarefas=Enum.reject(tarefas,fn {descri,_estado} -> descri==tarefa end)
     # tarefaE=Enum.at(tarefaE,0)
     tarefas=List.insert_at(tarefas,destino,tarefa)
-    # tarefas
+    tarefas
  end
 
   # Adicionar no começo da lista
   def processar(tarefas,[nova,x="0"]) when nova != "remover" do
     x=String.to_integer(x)
     tarefas=List.insert_at(tarefas,0,Tarefas.Tarefa.decodificar( ",#{nova},sem_completar"))
-  end
-
-  #Completar
-  def processar(tarefas,["completar",x])do
-    x=String.to_integer(x)
-    tarefa=Tarefas.Tarefa.completar(Enum.at(tarefas,x))
-    tarefas=List.replace_at(tarefas,x,tarefa)
-    IO.inspect(tarefas)
-  end
-
-  #Reiniciar
-  def processar(tarefas,["reiniciar",x])do
-    x=String.to_integer(x)
-    tarefa=Tarefas.Tarefa.reiniciar(Enum.at(tarefas,x))
-    tarefas=List.replace_at(tarefas,x,tarefa)
-    IO.inspect(tarefas)
-  end
-
-  #Remover
-  def processar(tarefas,["remover",x])do
-    x=String.to_integer(x)
-    List.delete_at(tarefas,x)
   end
 
   #Todas
@@ -89,6 +89,7 @@ defmodule Tarefas.CLI do
       Enum.map(incompletas, fn tarefa -> Tarefas.Tarefa.imprimir(tarefa) end)
       IO.puts("\n-- Tarefas Completadas --")
       Enum.map(completas, fn tarefa -> Tarefas.Tarefa.imprimir(tarefa) end)
+      tarefas
   end
   #Adicionar em uma posição
   def processar(tarefas,[nova,x]) when nova !="remover" do
